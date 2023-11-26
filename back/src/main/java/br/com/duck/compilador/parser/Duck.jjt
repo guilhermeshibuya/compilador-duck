@@ -1,0 +1,599 @@
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(Compilador)
+
+package br.com.duck.compilador.parser;
+import br.com.duck.compilador.recovery.*;
+
+public class Compilador
+{
+  public static void main(String args []) throws ParseException
+  {
+    Compilador parser = new Compilador(System.in);
+    while (true)
+    {
+      System.out.println("QUACK QUACK FALA A BOA: \n- >");
+
+	  SimpleNode node = Compilador.Start();
+      node.dump(" ");
+      
+      try
+      {
+        //Compilador.Start();
+      }
+      catch (Exception e)
+      {
+        System.out.println("Erro de quckilação: ");
+        System.out.println(e.getMessage());
+        Compilador.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("Erro quacktal: ");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+
+  static public String im(int x)
+  {
+    int k;
+	String s;
+    s = tokenImage[x];
+    k = s.lastIndexOf("\"");
+    try {
+      s = s.substring(1,k);
+    }
+   catch (StringIndexOutOfBoundsException e)
+	   {}
+   return s;
+  }
+	
+  static Token lastError = null;
+  static boolean eof;    // variável que indica se EOF foi alcançado
+	
+  // o método abaixo consome tokens até alcançar um que pertença ao conjunto
+  // de sincronização
+  static void consumeUntil(RecoverySet g,
+	                 ParseException e,
+	                 String met) throws ParseEOFException,
+	                                    ParseException
+  {
+	Token tok;
+	System.out.println();
+	System.out.println("*** " + met + " ***");
+	System.out.println("     Conjunto de sincronização: " + g);
+		
+	if (g == null) throw e; // se o conjunto é null, propaga a exceção
+	
+	tok = getToken(1); // pega token corrente
+	while ( ! eof )	{ // se não chegou ao fim do arquivo
+	  if ( g.contains(tok.kind)) {//achou um token no conjunto
+	    System.out.println("     Encontrado token de sincronização: " + 
+	                       im(tok.kind));
+	    break;
+	  }
+	  System.out.println("     Ignorando o token: " + im(tok.kind));
+	  getNextToken();     // pega próximo token       
+      tok = getToken(1);
+	  if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
+	      eof = true;
+	}
+    if ( tok != lastError)  {
+	  System.out.println(e.getMessage());
+	  lastError = tok;
+	   
+	}
+	if ( eof )
+	  throw new ParseEOFException("Encontrei EOF onde não deveria.");
+  }
+  
+}
+
+PARSER_END(Compilador)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN : {
+    < IF : "sepato" >
+  | < ELSE : "senaopato" >
+  | < ELSEIF : "outropato" >
+  | < WHILE : "repeteopato" >
+  | < FOR : "paraopato" >
+  | < INT : "patointeiro" >
+  | < FLOAT : "patoreal" >
+  | < STRING : "patoescrito" >
+  | < ID : (["a"-"z"])+ >
+  | < NUM : (["0"-"9"])+ ( "." (["0"-"9"])+ )? >
+  | < ASSIGN : "=" >
+  | < SEMICOLON : ";" >
+  | < OPEN_CURLY : "fazisso{" >
+  | < CLOSE_CURLY : "}" >
+  | < OPEN_PAREN : "forassim(" >
+  | < CLOSE_PAREN : ")entao" >
+  | < COMMA : "," >
+  | < EQUALS : "=ingual=" >
+  | < AND : "&tambem&" > 
+  | < OR : "|ouisso|" >
+  | < LESS_THAN : "<" >
+  | < GREATER_THAN : ">" >
+  | < PLUS : "+" >
+  | < MINUST : "-" >
+  | < TIMES : "*" >
+  | < DIVIDED : "/" > 
+  | <EOF_TOKEN : "$php$">
+}
+
+void Semicolon() :
+{RecoverySet sinc = First.semicolon;}
+{
+  try { 
+	<SEMICOLON>
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Semicolon");
+  }
+}
+
+void Identifier():
+{RecoverySet sinc = First.identifier;}
+{
+  try { 
+  	< ID >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Identifier");
+  }
+}
+
+void Assign():
+{RecoverySet sinc = First.assign;}
+{
+  try { 
+  	< ASSIGN >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Assign");
+  }
+}
+
+void Comma():
+{RecoverySet sinc = First.comma;}
+{
+  try { 
+  	< COMMA >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "Comma");
+  }
+}
+
+void OpenParen():
+{RecoverySet sinc = First.openParen;}
+{
+  try { 
+  	< OPEN_PAREN >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "OpenParen");
+  }
+}
+
+void CloseParen():
+{RecoverySet sinc = First.closeParen;}
+{
+  try { 
+  	< CLOSE_PAREN >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "CloseParen");
+  }
+}
+
+void OpenCurly():
+{RecoverySet sinc = First.openCurly;}
+{
+  try { 
+  	< OPEN_CURLY >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "OpenCurly");
+  }
+}
+
+void CloseCurly():
+{RecoverySet sinc = First.closeCurly;}
+{
+  try { 
+  	< CLOSE_CURLY >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "CloseCurly");
+  }
+}
+
+void IfT():
+{RecoverySet sinc = First.ifT;}
+{
+  try { 
+  	< IF >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "IfT");
+  }
+}
+
+void ElseT():
+{RecoverySet sinc = First.elseT;}
+{
+   try { 
+  	< ELSE >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "ElseT");
+  }
+}
+
+void ElseIfT():
+{RecoverySet sinc = First.elseIfT;}
+{
+  try { 
+  	< ELSEIF >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "ElseIfT");
+  }
+}
+
+void While():
+{RecoverySet sinc = First.whileT;}
+{
+  try { 
+  	< WHILE >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "WhileT");
+  }
+}
+
+void For():
+{RecoverySet sinc = First.forT;}
+{
+  try { 
+  	< FOR >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "ForT");
+  }
+}
+
+void Int():
+{RecoverySet sinc = First.intT;}
+{
+  try { 
+  	< INT >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "IntT");
+  }
+}
+
+void Float():
+{RecoverySet sinc = First.floatT;}
+{
+  try { 
+  	< FLOAT >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "FloatT");
+  }
+}
+
+void String():
+{RecoverySet sinc = First.stringT;}
+{
+   try {
+  	< STRING >
+   } catch (ParseException e) {
+	consumeUntil(sinc, e, "StringT");
+  }
+}
+
+void Or():
+{RecoverySet sinc = First.or;}
+{
+  try {
+  	< OR >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Or");
+  }
+}
+
+void And():
+{RecoverySet sinc = First.and;}
+{
+  try {
+  	< AND >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "And");
+  }
+}
+
+void Equals():
+{RecoverySet sinc = First.equals;}
+{
+  try { 
+  	< EQUALS >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Equals");
+  }
+}
+
+void LessThan():
+{RecoverySet sinc = First.lessThan;}
+{
+  try { 
+  	< LESS_THAN >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "LessThan");
+  }
+}
+
+void GreaterThan():
+{RecoverySet sinc = First.greaterThan;}
+{
+  try { 
+  	< GREATER_THAN >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "GreaterThan");
+  }
+}
+
+void Plus():
+{RecoverySet sinc = First.plus;}
+{
+  try { 
+  	< PLUS >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Plus");
+  }
+}
+
+void Minus():
+{RecoverySet sinc = First.minus;}
+{
+  try { 
+  	< MINUST >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Minus");
+  }
+}
+
+void Times():
+{RecoverySet sinc = First.times;}
+{
+  try { 
+  	< TIMES >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Times");
+  }
+}
+
+void Divided():
+{RecoverySet sinc = First.divided;}
+{
+  try { 
+  	< DIVIDED >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Divided");
+  }
+}
+
+void Number():
+{RecoverySet sinc = First.number;}
+{
+  try { 
+  	< NUM >
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Number");
+  }
+}
+
+SimpleNode Start() :
+{RecoverySet sinc = First.start;}
+{
+  try { 
+    (Statement())* <EOF_TOKEN>
+    { return jjtThis; }
+  } catch (ParseException e) {
+	consumeUntil(sinc, e, "Start");
+  }
+}
+
+void Statement() :
+{RecoverySet sinc = First.statement;}
+{
+  try { 
+    (VariableDeclaration() | Assignment() | Conditional() | Loop())
+    (Semicolon())
+   } catch (ParseException e) {
+	 consumeUntil(sinc, e, "Statement");
+   }
+}
+
+void VariableDeclaration() :
+{RecoverySet sinc = First.variableDeclaration;}
+{
+  try { 
+    	Type() VariableDeclarations()
+    } catch (ParseException e) {
+	 consumeUntil(sinc, e, "VariableDeclaration");
+   }
+}
+
+void VariableDeclarations() :
+{RecoverySet sinc = First.variableDeclarations;}
+{
+  try { 
+    	Identifier() ((Assign() Expression()))? (Comma() Identifier() ((Assign() Expression()))?)*
+	} catch (ParseException e) {
+		 consumeUntil(sinc, e, "VariableDeclarations");
+	   }
+}
+
+void MultiVariableAssignment() :
+{RecoverySet sinc = First.multiVariableAssignment;}
+{
+  try { 
+    	(Comma() Identifier())* Assign() Expression()
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "MultiVariableAssignment");
+	}
+}
+
+void Assignment() :
+{RecoverySet sinc = First.assignment;}
+{
+  try { 
+    	Identifier() MultiVariableAssignment()
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Assignment");
+	}
+}
+
+void Conditional() :
+{RecoverySet sinc = First.conditional;}
+{
+  try { 
+	    IfT() OpenParen() Expression() CloseParen() OpenCurly()
+	    (Statement())*
+	    CloseCurly()
+	    (Else() | ElseIf())?
+     } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Conditional");
+	}
+}
+
+void Else() :
+{RecoverySet sinc = First.elseNT;}
+{
+  try { 
+	    ElseT() OpenCurly()
+	    (Statement())*
+	    CloseCurly()
+	    (Else() | ElseIf())?
+     } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Else");
+	}
+}
+
+void ElseIf() :
+{RecoverySet sinc = First.elseIf;}
+{
+  try { 
+	    ElseIfT() OpenParen() Expression() CloseParen() OpenCurly()
+	    (Statement())*
+	    CloseCurly()
+	    (Else() | ElseIf())?
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "ElseIf");
+	}
+}
+
+
+void Loop() :
+{RecoverySet sinc = First.loop;}
+{
+  try { 
+	    ( While() | For() ) OpenParen() Expression() CloseParen() OpenCurly()
+	    (Statement())*
+	    CloseCurly()
+      } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Loop");
+	}
+}
+
+void Type() :
+{RecoverySet sinc = First.type;}
+{
+    try { 
+    	( Int() | Float() | String())
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Type");
+	}
+}
+
+void Expression() :
+{RecoverySet sinc = First.expression;}
+{
+    try { 
+    	OrExpression() // Use a regra de or (ou)
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Expression");
+	}
+}
+
+void OrExpression() :
+{RecoverySet sinc = First.orExpression;}
+{
+  	try { 
+    	AndExpression() ( Or() AndExpression() )*
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "OrExpression");
+	}
+}
+
+void AndExpression() :
+{RecoverySet sinc = First.andExpression;}
+{
+  	try { 
+    	EqualityExpression() ( And() EqualityExpression() )*
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "AndExpression");
+	}
+}
+
+void EqualityExpression() :
+{RecoverySet sinc = First.equalityExpression;}
+{
+  	try { 
+    	RelationalExpression() ( Equals() RelationalExpression() )*
+  	} catch (ParseException e) {
+		 consumeUntil(sinc, e, "EqualityExpression");
+	}
+}
+
+void RelationalExpression() :
+{RecoverySet sinc = First.relationalExpression;}
+{
+  	try { 
+    	AdditiveExpression() ( ( LessThan() | GreaterThan() ) AdditiveExpression() )*
+	} catch (ParseException e) {
+		 consumeUntil(sinc, e, "RelationalExpression");
+	}
+}
+
+void AdditiveExpression() :
+{RecoverySet sinc = First.additiveExpression;}
+{
+  	try { 
+    	Term() ( ( Plus() | Minus() ) Term() )*
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "AdditiveExpression");
+	}
+}
+
+void Term() :
+{RecoverySet sinc = First.term;}
+{
+ 	try { 
+   		Factor() ( ( Times() | Divided() ) Factor() )*
+ 	} catch (ParseException e) {
+		 consumeUntil(sinc, e, "Term");
+	}
+}
+
+void Factor() :
+{RecoverySet sinc = First.factor;}
+{
+  	try { 
+    	Number() | Identifier() | OpenParen() Expression() CloseParen()
+    } catch (ParseException e) {
+		 consumeUntil(sinc, e, "Factor");
+	}
+}
