@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import br.com.duck.compilador.parser.Compilador;
+import br.com.duck.compilador.parser.ParseException;
 import br.com.duck.compilador.parser.SimpleNode;
+import br.com.duck.compilador.recovery.ParseEOFException;
 
 @Service
 public class DuckService {
@@ -18,7 +20,7 @@ public class DuckService {
 	SimpleNode tree;
 	ObjectMapper objectMapper = new ObjectMapper();
 	
-	public String compileCode(String sourceCode) {
+	public String compileCode(String sourceCode) throws ParseException, ParseEOFException {
 		try {
 			if (compiler == null) {
 				compiler = new Compilador(new StringReader(sourceCode));
@@ -35,7 +37,7 @@ public class DuckService {
 			return treeJson.toString();
 //			return sb.toString();
 		} catch (Exception e) {
-			return "Erro: "+ e.getMessage();
+			throw e;
 		}
 	}
 	

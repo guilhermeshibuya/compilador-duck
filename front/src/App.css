@@ -1,6 +1,6 @@
 :root {
   --dark-font-color: #d4b2ff;
-  --dark-bg-main: #282828;
+  --dark-bg-main: #1e1e1e;
   --dark-bg-secondary: #343434;
 }
 
@@ -17,24 +17,44 @@
   display: grid;
   align-content: start;
   grid-template-columns: 7fr 3fr;
+  grid-template-areas:
+    "header tree"
+    "code tree"
+    "code error";
 }
 
 .header {
   display: flex;
   flex-direction: row;
   align-items: center;
+  grid-area: header;
   gap: 32px;
   padding: 16px 32px;
   height: 80px;
   background-color: var(--dark-bg-secondary);
 }
 
+.header,
 .txt-editor {
+  border-color: var(--dark-bg-secondary);
+  border-right-style: solid;
+  border-width: 1px;
+}
+
+.txt-editor {
+  grid-area: code;
   height: calc(100vh - 80px);
 }
 
 .tree {
+  grid-area: tree;
   grid-row: span 2;
+}
+
+.error {
+  grid-area: error;
+  background-color: var(--dark-bg-main);
+  height: 30vh;
 }
 
 .btn {

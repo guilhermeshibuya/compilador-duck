@@ -9,6 +9,7 @@ function App() {
   const [tree, setTree] = useState(null);
   const [editorValue, setEditorValue] = useState(null);
   const [file, setFile] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
@@ -35,6 +36,11 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setTree(data);
+        setErrorMsg("");
+      })
+      .catch((e) => {
+        console.log(e);
+        setErrorMsg(e);
       });
   };
 
@@ -55,7 +61,11 @@ function App() {
           Compilar
           <img src={playArrowIcon} />
         </button>
-        <input type="file" className="btn btn-dark" />
+        <input
+          type="file"
+          className="btn btn-dark"
+          onChange={handleFileChange}
+        />
       </header>
       <div className="tree">
         {tree && (
@@ -81,7 +91,9 @@ function App() {
           value={editorValue}
         />
       </main>
-      <div></div>
+      <div className="error">
+        <p>{errorMsg.toString()}</p>
+      </div>
     </div>
   );
 }

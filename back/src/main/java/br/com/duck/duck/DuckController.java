@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.duck.compilador.parser.ParseException;
+import br.com.duck.compilador.recovery.ParseEOFException;
+
 @RestController
 @RequestMapping("/compiler")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -18,11 +21,12 @@ public class DuckController {
 	
 	@PostMapping("/compile")
 	public ResponseEntity<String> compile(@RequestBody String sourceCode) {
-		String result = compilerService.compileCode(sourceCode);
-		
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		try {
+			String result = compilerService.compileCode(sourceCode);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Erro durante a compilação: \n" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-//	public String compile(@RequestBody String codigoFonte) {
-//		return compilerService.compileCode(codigoFonte);
-//	}
 }
