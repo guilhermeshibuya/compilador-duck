@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import Tree from "react-d3-tree";
+import playArrowIcon from "./assets/img/icons/play_arrow.svg";
 import "./App.css";
 
 function App() {
@@ -49,53 +50,39 @@ function App() {
 
   return (
     <div className="container">
-      <div className="main">
-        <header className="header">
-          <button className="btn btn-dark">Compilar</button>
-          <input type="file" className="btn btn-dark" />
-        </header>
-        <main className="txt-editor">
-          {/* <Editor
-            width="100%"
-            theme="vs-dark"
-            path="filename"
-            onChange={handleEditorChange}
-            onMount={handleEditorDidMount}
-            value={editorValue}
-          /> */}
-        </main>
+      <header className="header">
+        <button className="btn btn-dark" onClick={() => compile(editorValue)}>
+          Compilar
+          <img src={playArrowIcon} />
+        </button>
+        <input type="file" className="btn btn-dark" />
+      </header>
+      <div className="tree">
+        {tree && (
+          <Tree
+            data={tree}
+            rootNodeClassName="node__root"
+            branchNodeClassName="node__branch"
+            leafNodeClassName="node__leaf"
+            orientation="horizontal"
+            pathClassFunc={() => "custom-tree__link "}
+          />
+        )}
       </div>
+
+      <main className="txt-editor">
+        <Editor
+          width="100%"
+          height="100%"
+          theme="vs-dark"
+          path="filename"
+          onChange={handleEditorChange}
+          onMount={handleEditorDidMount}
+          value={editorValue}
+        />
+      </main>
+      <div></div>
     </div>
-
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "row",
-    //   }}
-    // >
-    //   <div
-    //     style={{
-    //       width: "70%",
-    //       height: "100vh",
-    //     }}
-    //   >
-    //     <button onClick={() => compile(editorValue)}>Compilar</button>
-    //     <input type="file" onInput={handleFileChange} />
-
-    //     <Editor
-    //       height="100%"
-    //       width="100%"
-    //       theme="vs-dark"
-    //       path="filename"
-    //       onChange={handleEditorChange}
-    //       onMount={handleEditorDidMount}
-    //       value={editorValue}
-    //     />
-    //   </div>
-    //   <div style={{ width: "30%", height: "100vh" }}>
-    //     {tree && <Tree data={tree} orientation="horizontal" />}
-    //   </div>
-    // </div>
   );
 }
 
