@@ -4,7 +4,7 @@ package br.com.duck.compilador.parser;
 import br.com.duck.compilador.recovery.*;
 
 public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, CompiladorConstants {/*@bgen(jjtree)*/
-  protected static JJTCompiladorState jjtree = new JJTCompiladorState();public static void main(String args []) throws ParseException
+  protected static JJTCompiladorState jjtree = new JJTCompiladorState();public static void main(String args []) throws ParseException, ParseEOFException
   {
     Compilador parser = new Compilador(System.in);
     while (true)
@@ -20,7 +20,7 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
       }
       catch (Exception e)
       {
-        System.out.println("Erro de quckila\u00c3\u00a7\u00c3\u00a3o: ");
+        System.out.println("Erro de quckila\u00e7\u00e3o: ");
         System.out.println(e.getMessage());
         Compilador.ReInit(System.in);
       }
@@ -60,14 +60,14 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
         Token tok;
         System.out.println();
         System.out.println("*** " + met + " ***");
-        System.out.println("     Conjunto de sincroniza\u00c3\u00a7\u00c3\u00a3o: " + g);
+        System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
 
         if (g == null) throw e; // se o conjunto é null, propaga a exceção
 
         tok = getToken(1); // pega token corrente
         while ( ! eof ) { // se não chegou ao fim do arquivo
           if ( g.contains(tok.kind)) {//achou um token no conjunto
-            System.out.println("     Encontrado token de sincroniza\u00c3\u00a7\u00c3\u00a3o: " +
+            System.out.println("     Encontrado token de sincroniza\u00e7\u00e3o: " +
                                im(tok.kind));
             break;
           }
@@ -83,7 +83,7 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
 
         }
         if ( eof )
-          throw new ParseEOFException("Encontrei EOF onde n\u00c3\u00a3o deveria.");
+          throw new ParseEOFException("Encontrei EOF onde n\u00e3o deveria.");
   }
 
   static final public void Semicolon() throws ParseException, ParseEOFException {/*@bgen(jjtree) Semicolon */
@@ -528,7 +528,7 @@ if (jjtc000) {
     }
 }
 
-  static final public SimpleNode Start() throws ParseException {/*@bgen(jjtree) Start */
+  static final public SimpleNode Start() throws ParseException, ParseEOFException {/*@bgen(jjtree) Start */
  SimpleNode jjtn000 = new SimpleNode(JJTSTART);
  boolean jjtc000 = true;
  jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.start;
