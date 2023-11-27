@@ -1,7 +1,10 @@
 :root {
   --dark-font-color: #d4b2ff;
   --dark-bg-main: #1e1e1e;
+  --dark-bg-main-hover: #454545;
   --dark-bg-secondary: #343434;
+  --text-white: #efefef;
+  --error-font-color: #f67c74;
 }
 
 * {
@@ -11,26 +14,40 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .container {
   width: 100%;
   height: 100vh;
   display: grid;
   align-content: start;
-  grid-template-columns: 7fr 3fr;
+  grid-template-columns: 70px 7fr 3fr;
   grid-template-areas:
-    "header tree"
-    "code tree"
-    "code error";
+    "sidebar header tree"
+    "sidebar code tree"
+    "sidebar code error";
+}
+
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  gap: 12px;
+  background-color: var(--dark-bg-secondary);
 }
 
 .header {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   grid-area: header;
-  gap: 32px;
-  padding: 16px 32px;
-  height: 80px;
+  height: 50px;
+  gap: 0px;
+  padding: 16px 16px 0 0;
   background-color: var(--dark-bg-secondary);
 }
 
@@ -43,7 +60,7 @@
 
 .txt-editor {
   grid-area: code;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 50px);
 }
 
 .tree {
@@ -52,20 +69,59 @@
 }
 
 .error {
+  padding: 16px;
   grid-area: error;
   background-color: var(--dark-bg-main);
   height: 30vh;
+  color: var(--error-font-color);
 }
 
-.btn {
+.btn,
+.btn-page {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px;
-  border-radius: 8px;
   padding: 8px 12px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.btn {
+  gap: 6px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.btn .tooltip {
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  left: 120%;
+  border-radius: 6px;
+  padding: 6px;
+  z-index: 1;
+  font-size: 12px;
+  background-color: var(--dark-bg-main-hover);
+  color: var(--text-white);
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.btn-page {
+  position: relative;
+  gap: 16px;
+  background-color: var(--dark-bg-secondary);
+  color: var(--text-white);
+}
+
+.btn-page-active {
+  background-color: var(--dark-bg-main);
 }
 
 .btn img {
@@ -76,4 +132,17 @@
 .btn-dark {
   background-color: var(--dark-bg-main);
   color: var(--dark-font-color);
+  transition: 0.3s;
+}
+
+.btn-dark:hover {
+  background-color: var(--dark-bg-main-hover);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  font-family: inherit;
 }

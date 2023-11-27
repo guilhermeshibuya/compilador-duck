@@ -58,25 +58,30 @@ public class Compilador
 	
   // o método abaixo consome tokens até alcançar um que pertença ao conjunto
   // de sincronização
-  static void consumeUntil(RecoverySet g,
+  static String consumeUntil(RecoverySet g,
 	                 ParseException e,
 	                 String met) throws ParseEOFException,
 	                                    ParseException
   {
+    StringBuilder errors = new StringBuilder();
+    
 	Token tok;
 	System.out.println();
 	System.out.println("*** " + met + " ***");
 	System.out.println("     Conjunto de sincronização: " + g);
-		
+	errors.append("*** " + met + " ***\n");
+	errors.append("Conjunto de sincronização: " + g + "\n");
 	if (g == null) throw e; // se o conjunto é null, propaga a exceção
 	
 	tok = getToken(1); // pega token corrente
 	while ( ! eof )	{ // se não chegou ao fim do arquivo
 	  if ( g.contains(tok.kind)) {//achou um token no conjunto
+		errors.append("Encontrado token de sincronização: " + im(tok.kind) + "\n");
 	    System.out.println("     Encontrado token de sincronização: " + 
 	                       im(tok.kind));
 	    break;
 	  }
+	  errors.append("Ignorando o token: " + im(tok.kind) + "\n");
 	  System.out.println("     Ignorando o token: " + im(tok.kind));
 	  getNextToken();     // pega próximo token       
       tok = getToken(1);
@@ -84,13 +89,18 @@ public class Compilador
 	      eof = true;
 	}
     if ( tok != lastError)  {
+     errors.append(e.getMessage());
+      
 	  System.out.println(e.getMessage());
 	  lastError = tok;
 	   
 	}
 	if ( eof )
 	  throw new ParseEOFException("Encontrei EOF onde não deveria.");
+
+  	return errors.toString();
   }
+	
   
 }
 

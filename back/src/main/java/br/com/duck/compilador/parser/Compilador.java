@@ -4,7 +4,7 @@ package br.com.duck.compilador.parser;
 import br.com.duck.compilador.recovery.*;
 
 public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, CompiladorConstants {/*@bgen(jjtree)*/
-  protected static JJTCompiladorState jjtree = new JJTCompiladorState();public static void main(String args []) throws ParseException, ParseEOFException
+  protected static JJTCompiladorState jjtree = new JJTCompiladorState();public static void main(String args []) throws ParseException
   {
     Compilador parser = new Compilador(System.in);
     while (true)
@@ -52,25 +52,30 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
 
   // o método abaixo consome tokens até alcançar um que pertença ao conjunto
   // de sincronização
-  static void consumeUntil(RecoverySet g,
+  static String consumeUntil(RecoverySet g,
                          ParseException e,
                          String met) throws ParseEOFException,
                                             ParseException
   {
+    StringBuilder errors = new StringBuilder();
+
         Token tok;
         System.out.println();
         System.out.println("*** " + met + " ***");
         System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
-
+        errors.append("*** " + met + " ***\n");
+        errors.append("Conjunto de sincroniza\u00e7\u00e3o: " + g + "\n");
         if (g == null) throw e; // se o conjunto é null, propaga a exceção
 
         tok = getToken(1); // pega token corrente
         while ( ! eof ) { // se não chegou ao fim do arquivo
           if ( g.contains(tok.kind)) {//achou um token no conjunto
+                errors.append("Encontrado token de sincroniza\u00e7\u00e3o: " + im(tok.kind) + "\n");
             System.out.println("     Encontrado token de sincroniza\u00e7\u00e3o: " +
                                im(tok.kind));
             break;
           }
+          errors.append("Ignorando o token: " + im(tok.kind) + "\n");
           System.out.println("     Ignorando o token: " + im(tok.kind));
           getNextToken();     // pega próximo token       
       tok = getToken(1);
@@ -78,12 +83,16 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
               eof = true;
         }
     if ( tok != lastError)  {
+     errors.append(e.getMessage());
+
           System.out.println(e.getMessage());
           lastError = tok;
 
         }
         if ( eof )
           throw new ParseEOFException("Encontrei EOF onde n\u00e3o deveria.");
+
+        return errors.toString();
   }
 
   static final public void Semicolon() throws ParseException, ParseEOFException {/*@bgen(jjtree) Semicolon */
@@ -528,7 +537,7 @@ if (jjtc000) {
     }
 }
 
-  static final public SimpleNode Start() throws ParseException, ParseEOFException {/*@bgen(jjtree) Start */
+  static final public SimpleNode Start() throws ParseException {/*@bgen(jjtree) Start */
  SimpleNode jjtn000 = new SimpleNode(JJTSTART);
  boolean jjtc000 = true;
  jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.start;

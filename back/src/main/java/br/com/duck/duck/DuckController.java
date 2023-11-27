@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.duck.compilador.parser.ParseException;
 import br.com.duck.compilador.recovery.ParseEOFException;
 
@@ -25,8 +31,8 @@ public class DuckController {
 			String result = compilerService.compileCode(sourceCode);
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Erro durante a compilação: \n" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {			
+			return new ResponseEntity<>(e.getMessage().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
