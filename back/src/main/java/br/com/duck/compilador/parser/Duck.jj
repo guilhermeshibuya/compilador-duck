@@ -70,14 +70,15 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants/*@ege
 	                 String met) throws ParseEOFException,
 	                                    ParseException
   {
-    
+    errors.clearList();
 
 	Token tok;
 	System.out.println();
 	System.out.println("*** " + met + " ***");
 	System.out.println("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
 
-	errors.addError("*** " + met + " ***\n" + "     Conjunto de sincroniza\u00e7\u00e3o: " + g);
+	errors.addError("*** " + met + " ***");
+	errors.addError("     Conjunto de sincroniza\u00e7\u00e3o: " + g);
 	
 	if (g == null) throw e; // se o conjunto \u00e9 null, propaga a exce\u00e7\u00e3o
 	

@@ -31,9 +31,18 @@ public class DuckController {
 			String result = compilerService.compileCode(sourceCode);
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
-		} catch (Exception e) {		
-			e.printStackTrace();
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (ParseEOFException e) {		
+			String error = "{\"error\": \"" + e.getMessage() + "\"}";
+			System.out.println(error);
+			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (ParseException e) {
+			String error = "{\"error\": \"" + e.getMessage() + "\"}";
+			System.out.println(error);
+			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			String error = "{\"error\": \"" + e.getMessage() + "\"}";
+			System.out.println(error);
+			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

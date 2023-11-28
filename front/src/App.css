@@ -5,6 +5,8 @@
   --dark-bg-secondary: #343434;
   --text-white: #efefef;
   --error-font-color: #f67c74;
+  --success-font-color: #aafd8d;
+  --alert-font-color: #f9d989;
 }
 
 * {
@@ -27,7 +29,7 @@ body {
   grid-template-areas:
     "sidebar header tree"
     "sidebar code tree"
-    "sidebar code error";
+    "sidebar code console";
 }
 
 .sidebar {
@@ -68,12 +70,29 @@ body {
   grid-row: span 2;
 }
 
-.error {
+.console {
   padding: 16px;
-  grid-area: error;
+  grid-area: console;
   background-color: var(--dark-bg-main);
   height: 30vh;
+  overflow-y: scroll;
+}
+
+.console-txt {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.error-txt {
   color: var(--error-font-color);
+}
+
+.success-txt {
+  color: var(--success-font-color);
+}
+
+.alert-txt {
+  color: var(--alert-font-color);
 }
 
 .btn,

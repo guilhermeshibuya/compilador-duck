@@ -13,6 +13,10 @@ public class CompilationError {
 	public List<String> getErrors() {
 		return this.messages;
 	}
+	
+	public void clearList() {
+		this.messages.clear();
+	}
 //	private int lineNumber;
 	
 //	public String getMessage() {

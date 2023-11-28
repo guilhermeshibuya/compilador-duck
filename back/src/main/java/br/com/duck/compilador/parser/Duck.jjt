@@ -66,14 +66,15 @@ public class Compilador
 	                 String met) throws ParseEOFException,
 	                                    ParseException
   {
-    
+    errors.clearList();
 
 	Token tok;
 	System.out.println();
 	System.out.println("*** " + met + " ***");
 	System.out.println("     Conjunto de sincronização: " + g);
 
-	errors.addError("*** " + met + " ***\n" + "     Conjunto de sincronização: " + g);
+	errors.addError("*** " + met + " ***");
+	errors.addError("     Conjunto de sincronização: " + g);
 	
 	if (g == null) throw e; // se o conjunto é null, propaga a exceção
 	

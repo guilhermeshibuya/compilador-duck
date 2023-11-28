@@ -22,53 +22,33 @@ public class DuckService {
 	SimpleNode tree;
 	ObjectMapper objectMapper = new ObjectMapper();
 	
-	
-//	public ResponseEntity<String> compileCode(String sourceCode) {
-//	    try {
-//	        if (compiler == null) {
-//	            compiler = new Compilador(new StringReader(sourceCode));
-//	        } else {
-//	            compiler.ReInit(new StringReader(sourceCode));
-//	        }
-//	        tree = compiler.Start();
-//	        tree.dump(" ");
-//
-//	        ObjectNode treeJson = convertTreeToJson(tree, objectMapper.createObjectNode());
-//
-//	        return ResponseEntity.ok(treeJson.toString());
-//	    } catch (Exception e) {
-//	        System.out.println(String.join("\n", compiler.errors.getErrors()));
-//	        return ResponseEntity.ok(String.join("\n", compiler.errors.getErrors()));
-//	    }
-//	}
-	
 	public String compileCode(String sourceCode) throws ParseException, ParseEOFException {
-
-
 			if (compiler == null) {
 				compiler = new Compilador(new StringReader(sourceCode));
 			} else {
 				compiler.ReInit(new StringReader(sourceCode));;
 			}
+			compiler.errors.clear();
 			tree = compiler.Start();
 			tree.dump(" ");
 			
-//			StringBuilder sb = new StringBuilder();
-//			treeRepresentation(tree, "", sb);
+
 			ObjectNode treeJson = convertTreeToJson(tree, objectMapper.createObjectNode());
 			
-			if (compiler.errors.getErrors() != null) {
-				return String.join("\n", compiler.errors.getErrors());
-			} else {
-				return treeJson.toString();
+			ObjectNode resultJson  = objectMapper.createObjectNode();
+			resultJson.set("tree", treeJson);
+			
+			ArrayNode errorsArray = objectMapper.createArrayNode();
+			for (String error : compiler.errors) {
+				errorsArray.add(error);
 			}
-			
-			
+			resultJson.set("errors", errorsArray);
+			return resultJson.toString();
+//				StringBuilder sb = new StringBuilder();
+//				treeRepresentation(tree, "", sb);
+		
 //			return sb.toString();
-			
-//			System.out.println(String.join("\n", compiler.errors.getErrors()));
-//			
-
+//			System.out.println(String.join("\n", compiler.errors.getErrors()));		
 	}
 	
 	private void treeRepresentation(SimpleNode node, String ident, StringBuilder stringBuilder) {

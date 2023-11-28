@@ -4,6 +4,7 @@ import Tree from "react-d3-tree";
 import playArrowIcon from "./assets/img/icons/play_arrow.svg";
 import fileOpenIcon from "./assets/img/icons/file_open.svg";
 import fileSaveIcon from "./assets/img/icons/file_save.svg";
+import newFileIcon from "./assets/img/icons/add.svg";
 import "./App.css";
 
 function App() {
@@ -12,7 +13,9 @@ function App() {
   const [editorValue, setEditorValue] = useState(null);
   const [files, setFiles] = useState([]);
   const [selectedFileIndex, setSelectedFileIndex] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState([]);
+  const [successMsg, setSuccessMsg] = useState(null);
+  const [alertMsg, setAlertMsg] = useState(null);
 
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
@@ -32,6 +35,13 @@ function App() {
         setSelectedFileIndex(0);
       }
     }
+  };
+
+  const createFile = () => {
+    const blob = new Blob([], { type: "text/plain" });
+
+    setFiles([...files, blob]);
+    setSelectedFileIndex(files.length);
   };
 
   const handleFileDownload = () => {
@@ -67,22 +77,31 @@ function App() {
 
   const compile = async (sourceCode) => {
     if (selectedFileIndex !== null && selectedFileIndex < files.length) {
-      await fetch("http://localhost:8080/compiler/compile", {
+      const response = await fetch("http://localhost:8080/compiler/compile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: sourceCode,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setTree(data);
-          setErrorMsg("");
-        })
-        .catch((e) => {
-          console.log(e);
-          setErrorMsg(e);
-        });
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setTree(result.tree);
+        console.log(result);
+        if (result.errors.length == 0) {
+          setSuccessMsg("Compilado com sucesso!");
+          setErrorMsg([]);
+          setAlertMsg(null);
+        } else {
+          setAlertMsg("Compilado utilizando a recuperação de erro por pânico!");
+          setErrorMsg(result.errors);
+          setSuccessMsg(null);
+        }
+      } else {
+        const error = await response.json();
+        console.log(error);
+        setErrorMsg(error.error);
+      }
     }
   };
 
@@ -108,6 +127,11 @@ function App() {
           <span className="tooltip">Compilar código</span>
         </button>
 
+        <button className="btn btn-dark" onClick={createFile}>
+          <img src={newFileIcon} />
+          <span className="tooltip">Novo arquivo</span>
+        </button>
+
         <label htmlFor="file-upload" className="btn btn-dark">
           <img src={fileOpenIcon} />
           <span className="tooltip">Abrir arquivo</span>
@@ -120,23 +144,24 @@ function App() {
         </button>
       </div>
       <header className="header">
-        {files.map((file, index) => (
-          <button
-            key={index}
-            className={`btn-page ${
-              index === selectedFileIndex ? "btn-page-active" : ""
-            }`}
-            onClick={() => {
-              setSelectedFileIndex(index);
-              setEditorValue(file[index]);
-            }}
-          >
-            {file.name}
-            <div className="close" onClick={() => handleCloseFile(index)}>
-              x
-            </div>
-          </button>
-        ))}
+        {files &&
+          files.map((file, index) => (
+            <button
+              key={index}
+              className={`btn-page ${
+                index === selectedFileIndex ? "btn-page-active" : ""
+              }`}
+              onClick={() => {
+                setSelectedFileIndex(index);
+                setEditorValue(file[index]);
+              }}
+            >
+              {file.name}
+              <div className="close" onClick={() => handleCloseFile(index)}>
+                x
+              </div>
+            </button>
+          ))}
       </header>
       <div className="tree">
         {tree && (
@@ -172,8 +197,13 @@ function App() {
           ></div>
         )}
       </main>
-      <div className="error">
-        <p>{errorMsg.toString()}</p>
+      <div className="console">
+        {alertMsg && <p className="console-txt alert-txt">{alertMsg}</p>}
+        {successMsg && <p className="console-txt success-txt">{successMsg}</p>}
+        {errorMsg.length > 0 &&
+          errorMsg.map((error) => {
+            return <p className="console-txt error-txt">{error}</p>;
+          })}
       </div>
     </div>
   );
