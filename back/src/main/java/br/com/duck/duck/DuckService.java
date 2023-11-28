@@ -2,7 +2,9 @@ package br.com.duck.duck;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,8 +22,29 @@ public class DuckService {
 	SimpleNode tree;
 	ObjectMapper objectMapper = new ObjectMapper();
 	
+	
+//	public ResponseEntity<String> compileCode(String sourceCode) {
+//	    try {
+//	        if (compiler == null) {
+//	            compiler = new Compilador(new StringReader(sourceCode));
+//	        } else {
+//	            compiler.ReInit(new StringReader(sourceCode));
+//	        }
+//	        tree = compiler.Start();
+//	        tree.dump(" ");
+//
+//	        ObjectNode treeJson = convertTreeToJson(tree, objectMapper.createObjectNode());
+//
+//	        return ResponseEntity.ok(treeJson.toString());
+//	    } catch (Exception e) {
+//	        System.out.println(String.join("\n", compiler.errors.getErrors()));
+//	        return ResponseEntity.ok(String.join("\n", compiler.errors.getErrors()));
+//	    }
+//	}
+	
 	public String compileCode(String sourceCode) throws ParseException, ParseEOFException {
-		try {
+
+
 			if (compiler == null) {
 				compiler = new Compilador(new StringReader(sourceCode));
 			} else {
@@ -34,11 +57,18 @@ public class DuckService {
 //			treeRepresentation(tree, "", sb);
 			ObjectNode treeJson = convertTreeToJson(tree, objectMapper.createObjectNode());
 			
-			return treeJson.toString();
+			if (compiler.errors.getErrors() != null) {
+				return String.join("\n", compiler.errors.getErrors());
+			} else {
+				return treeJson.toString();
+			}
+			
+			
 //			return sb.toString();
-		} catch (Exception e) {
-			throw e;
-		}
+			
+//			System.out.println(String.join("\n", compiler.errors.getErrors()));
+//			
+
 	}
 	
 	private void treeRepresentation(SimpleNode node, String ident, StringBuilder stringBuilder) {
