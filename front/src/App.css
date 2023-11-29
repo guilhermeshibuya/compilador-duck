@@ -25,7 +25,7 @@ body {
   height: 100vh;
   display: grid;
   align-content: start;
-  grid-template-columns: 70px 7fr 3fr;
+  grid-template-columns: 70px 6fr 4fr;
   grid-template-areas:
     "sidebar header tree"
     "sidebar code tree"
