@@ -110,7 +110,7 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
   static final public void Semicolon() throws ParseException, ParseEOFException {/*@bgen(jjtree) Semicolon */
  SimpleNode jjtn000 = new SimpleNode(JJTSEMICOLON);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.semicolon;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.semicolon;
     try {
       try {
         jj_consume_token(SEMICOLON);
@@ -127,7 +127,7 @@ if (jjtc000) {
   static final public void Identifier() throws ParseException, ParseEOFException {/*@bgen(jjtree) Identifier */
  SimpleNode jjtn000 = new SimpleNode(JJTIDENTIFIER);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.identifier;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.identifier;
     try {
       try {
         jj_consume_token(ID);
@@ -144,7 +144,7 @@ if (jjtc000) {
   static final public void Assign() throws ParseException, ParseEOFException {/*@bgen(jjtree) Assign */
  SimpleNode jjtn000 = new SimpleNode(JJTASSIGN);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.assign;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.assign;
     try {
       try {
         jj_consume_token(ASSIGN);
@@ -161,7 +161,7 @@ if (jjtc000) {
   static final public void Comma() throws ParseException, ParseEOFException {/*@bgen(jjtree) Comma */
  SimpleNode jjtn000 = new SimpleNode(JJTCOMMA);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.comma;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.comma;
     try {
       try {
         jj_consume_token(COMMA);
@@ -178,7 +178,7 @@ if (jjtc000) {
   static final public void OpenParen() throws ParseException, ParseEOFException {/*@bgen(jjtree) OpenParen */
  SimpleNode jjtn000 = new SimpleNode(JJTOPENPAREN);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.openParen;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.openParen;
     try {
       try {
         jj_consume_token(OPEN_PAREN);
@@ -195,7 +195,7 @@ if (jjtc000) {
   static final public void CloseParen() throws ParseException, ParseEOFException {/*@bgen(jjtree) CloseParen */
  SimpleNode jjtn000 = new SimpleNode(JJTCLOSEPAREN);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.closeParen;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.closeParen;
     try {
       try {
         jj_consume_token(CLOSE_PAREN);
@@ -212,7 +212,7 @@ if (jjtc000) {
   static final public void OpenCurly() throws ParseException, ParseEOFException {/*@bgen(jjtree) OpenCurly */
  SimpleNode jjtn000 = new SimpleNode(JJTOPENCURLY);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.openCurly;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.openCurly;
     try {
       try {
         jj_consume_token(OPEN_CURLY);
@@ -229,7 +229,7 @@ if (jjtc000) {
   static final public void CloseCurly() throws ParseException, ParseEOFException {/*@bgen(jjtree) CloseCurly */
  SimpleNode jjtn000 = new SimpleNode(JJTCLOSECURLY);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.closeCurly;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.closeCurly;
     try {
       try {
         jj_consume_token(CLOSE_CURLY);
@@ -246,7 +246,7 @@ if (jjtc000) {
   static final public void IfT() throws ParseException, ParseEOFException {/*@bgen(jjtree) IfT */
  SimpleNode jjtn000 = new SimpleNode(JJTIFT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.ifT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.ifT;
     try {
       try {
         jj_consume_token(IF);
@@ -263,7 +263,7 @@ if (jjtc000) {
   static final public void ElseT() throws ParseException, ParseEOFException {/*@bgen(jjtree) ElseT */
  SimpleNode jjtn000 = new SimpleNode(JJTELSET);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.elseT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.elseT;
     try {
       try {
         jj_consume_token(ELSE);
@@ -280,7 +280,7 @@ if (jjtc000) {
   static final public void ElseIfT() throws ParseException, ParseEOFException {/*@bgen(jjtree) ElseIfT */
  SimpleNode jjtn000 = new SimpleNode(JJTELSEIFT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.elseIfT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.elseIfT;
     try {
       try {
         jj_consume_token(ELSEIF);
@@ -297,7 +297,7 @@ if (jjtc000) {
   static final public void While() throws ParseException, ParseEOFException {/*@bgen(jjtree) While */
  SimpleNode jjtn000 = new SimpleNode(JJTWHILE);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.whileT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.whileT;
     try {
       try {
         jj_consume_token(WHILE);
@@ -314,7 +314,7 @@ if (jjtc000) {
   static final public void For() throws ParseException, ParseEOFException {/*@bgen(jjtree) For */
  SimpleNode jjtn000 = new SimpleNode(JJTFOR);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.forT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.forT;
     try {
       try {
         jj_consume_token(FOR);
@@ -331,7 +331,7 @@ if (jjtc000) {
   static final public void Int() throws ParseException, ParseEOFException {/*@bgen(jjtree) Int */
  SimpleNode jjtn000 = new SimpleNode(JJTINT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.intT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.intT;
     try {
       try {
         jj_consume_token(INT);
@@ -348,7 +348,7 @@ if (jjtc000) {
   static final public void Float() throws ParseException, ParseEOFException {/*@bgen(jjtree) Float */
  SimpleNode jjtn000 = new SimpleNode(JJTFLOAT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.floatT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.floatT;
     try {
       try {
         jj_consume_token(FLOAT);
@@ -365,7 +365,7 @@ if (jjtc000) {
   static final public void String() throws ParseException, ParseEOFException {/*@bgen(jjtree) String */
  SimpleNode jjtn000 = new SimpleNode(JJTSTRING);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.stringT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.stringT;
     try {
       try {
         jj_consume_token(STRING);
@@ -382,7 +382,7 @@ if (jjtc000) {
   static final public void Or() throws ParseException, ParseEOFException {/*@bgen(jjtree) Or */
  SimpleNode jjtn000 = new SimpleNode(JJTOR);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.or;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.or;
     try {
       try {
         jj_consume_token(OR);
@@ -399,7 +399,7 @@ if (jjtc000) {
   static final public void And() throws ParseException, ParseEOFException {/*@bgen(jjtree) And */
  SimpleNode jjtn000 = new SimpleNode(JJTAND);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.and;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.and;
     try {
       try {
         jj_consume_token(AND);
@@ -416,7 +416,7 @@ if (jjtc000) {
   static final public void Equals() throws ParseException, ParseEOFException {/*@bgen(jjtree) Equals */
  SimpleNode jjtn000 = new SimpleNode(JJTEQUALS);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.equals;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.equals;
     try {
       try {
         jj_consume_token(EQUALS);
@@ -433,7 +433,7 @@ if (jjtc000) {
   static final public void LessThan() throws ParseException, ParseEOFException {/*@bgen(jjtree) LessThan */
  SimpleNode jjtn000 = new SimpleNode(JJTLESSTHAN);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.lessThan;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.lessThan;
     try {
       try {
         jj_consume_token(LESS_THAN);
@@ -450,7 +450,7 @@ if (jjtc000) {
   static final public void GreaterThan() throws ParseException, ParseEOFException {/*@bgen(jjtree) GreaterThan */
  SimpleNode jjtn000 = new SimpleNode(JJTGREATERTHAN);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.greaterThan;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.greaterThan;
     try {
       try {
         jj_consume_token(GREATER_THAN);
@@ -467,7 +467,7 @@ if (jjtc000) {
   static final public void Plus() throws ParseException, ParseEOFException {/*@bgen(jjtree) Plus */
  SimpleNode jjtn000 = new SimpleNode(JJTPLUS);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.plus;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.plus;
     try {
       try {
         jj_consume_token(PLUS);
@@ -484,7 +484,7 @@ if (jjtc000) {
   static final public void Minus() throws ParseException, ParseEOFException {/*@bgen(jjtree) Minus */
  SimpleNode jjtn000 = new SimpleNode(JJTMINUS);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.minus;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.minus;
     try {
       try {
         jj_consume_token(MINUST);
@@ -501,7 +501,7 @@ if (jjtc000) {
   static final public void Times() throws ParseException, ParseEOFException {/*@bgen(jjtree) Times */
  SimpleNode jjtn000 = new SimpleNode(JJTTIMES);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.times;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.times;
     try {
       try {
         jj_consume_token(TIMES);
@@ -518,7 +518,7 @@ if (jjtc000) {
   static final public void Divided() throws ParseException, ParseEOFException {/*@bgen(jjtree) Divided */
  SimpleNode jjtn000 = new SimpleNode(JJTDIVIDED);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.divided;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.divided;
     try {
       try {
         jj_consume_token(DIVIDED);
@@ -535,7 +535,7 @@ if (jjtc000) {
   static final public void Number() throws ParseException, ParseEOFException  {/*@bgen(jjtree) Number */
  SimpleNode jjtn000 = new SimpleNode(JJTNUMBER);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.number;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.number;
     try {
       try {
         jj_consume_token(NUM);
@@ -552,7 +552,7 @@ if (jjtc000) {
   static final public SimpleNode Start() throws ParseException, ParseEOFException {/*@bgen(jjtree) Start */
  SimpleNode jjtn000 = new SimpleNode(JJTSTART);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.start;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.start;
     try {
       try {
         label_1:
@@ -604,7 +604,7 @@ if (jjtc000) {
   static final public void Statement() throws ParseException {/*@bgen(jjtree) Statement */
  SimpleNode jjtn000 = new SimpleNode(JJTSTATEMENT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.statement;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.statement;
     try {
       try {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -660,7 +660,7 @@ if (jjtc000) {
   static final public void VariableDeclaration() throws ParseException {/*@bgen(jjtree) VariableDeclaration */
  SimpleNode jjtn000 = new SimpleNode(JJTVARIABLEDECLARATION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.variableDeclaration;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.variableDeclaration;
     try {
       try {
         Type();
@@ -692,7 +692,7 @@ if (jjtc000) {
   static final public void VariableDeclarations() throws ParseException {/*@bgen(jjtree) VariableDeclarations */
  SimpleNode jjtn000 = new SimpleNode(JJTVARIABLEDECLARATIONS);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.variableDeclarations;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.variableDeclarations;
     try {
       try {
         Identifier();
@@ -757,7 +757,7 @@ if (jjtc000) {
   static final public void MultiVariableAssignment() throws ParseException {/*@bgen(jjtree) MultiVariableAssignment */
  SimpleNode jjtn000 = new SimpleNode(JJTMULTIVARIABLEASSIGNMENT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.multiVariableAssignment;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.multiVariableAssignment;
     try {
       try {
         label_3:
@@ -803,7 +803,7 @@ if (jjtc000) {
   static final public void Assignment() throws ParseException {/*@bgen(jjtree) Assignment */
  SimpleNode jjtn000 = new SimpleNode(JJTASSIGNMENT);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.assignment;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.assignment;
     try {
       try {
         Identifier();
@@ -835,7 +835,7 @@ if (jjtc000) {
   static final public void Conditional() throws ParseException {/*@bgen(jjtree) Conditional */
  SimpleNode jjtn000 = new SimpleNode(JJTCONDITIONAL);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.conditional;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.conditional;
     try {
       try {
         IfT();
@@ -913,7 +913,7 @@ if (jjtc000) {
   static final public void Else() throws ParseException {/*@bgen(jjtree) Else */
  SimpleNode jjtn000 = new SimpleNode(JJTELSE);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.elseNT;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.elseNT;
     try {
       try {
         ElseT();
@@ -988,7 +988,7 @@ if (jjtc000) {
   static final public void ElseIf() throws ParseException {/*@bgen(jjtree) ElseIf */
  SimpleNode jjtn000 = new SimpleNode(JJTELSEIF);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.elseIf;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.elseIf;
     try {
       try {
         ElseIfT();
@@ -1066,7 +1066,7 @@ if (jjtc000) {
   static final public void Loop() throws ParseException {/*@bgen(jjtree) Loop */
  SimpleNode jjtn000 = new SimpleNode(JJTLOOP);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.loop;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.loop;
     try {
       try {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -1134,7 +1134,7 @@ if (jjtc000) {
   static final public void Type() throws ParseException {/*@bgen(jjtree) Type */
  SimpleNode jjtn000 = new SimpleNode(JJTTYPE);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.type;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.type;
     try {
       try {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -1182,7 +1182,7 @@ if (jjtc000) {
   static final public void Expression() throws ParseException {/*@bgen(jjtree) Expression */
  SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.expression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.expression;
     try {
       try {
         OrExpression();
@@ -1213,7 +1213,7 @@ if (jjtc000) {
   static final public void OrExpression() throws ParseException {/*@bgen(jjtree) OrExpression */
  SimpleNode jjtn000 = new SimpleNode(JJTOREXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.orExpression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.orExpression;
     try {
       try {
         AndExpression();
@@ -1258,7 +1258,7 @@ if (jjtc000) {
   static final public void AndExpression() throws ParseException {/*@bgen(jjtree) AndExpression */
  SimpleNode jjtn000 = new SimpleNode(JJTANDEXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.andExpression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.andExpression;
     try {
       try {
         EqualityExpression();
@@ -1303,7 +1303,7 @@ if (jjtc000) {
   static final public void EqualityExpression() throws ParseException {/*@bgen(jjtree) EqualityExpression */
  SimpleNode jjtn000 = new SimpleNode(JJTEQUALITYEXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.equalityExpression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.equalityExpression;
     try {
       try {
         RelationalExpression();
@@ -1348,7 +1348,7 @@ if (jjtc000) {
   static final public void RelationalExpression() throws ParseException {/*@bgen(jjtree) RelationalExpression */
  SimpleNode jjtn000 = new SimpleNode(JJTRELATIONALEXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.relationalExpression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.relationalExpression;
     try {
       try {
         AdditiveExpression();
@@ -1407,7 +1407,7 @@ if (jjtc000) {
   static final public void AdditiveExpression() throws ParseException {/*@bgen(jjtree) AdditiveExpression */
  SimpleNode jjtn000 = new SimpleNode(JJTADDITIVEEXPRESSION);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.additiveExpression;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.additiveExpression;
     try {
       try {
         Term();
@@ -1466,7 +1466,7 @@ if (jjtc000) {
   static final public void Term() throws ParseException {/*@bgen(jjtree) Term */
  SimpleNode jjtn000 = new SimpleNode(JJTTERM);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.term;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.term;
     try {
       try {
         Factor();
@@ -1525,7 +1525,7 @@ if (jjtc000) {
   static final public void Factor() throws ParseException {/*@bgen(jjtree) Factor */
  SimpleNode jjtn000 = new SimpleNode(JJTFACTOR);
  boolean jjtc000 = true;
- jjtree.openNodeScope(jjtn000);RecoverySet sinc = First.factor;
+ jjtree.openNodeScope(jjtn000);RecoverySet sinc = Follow.factor;
     try {
       try {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {

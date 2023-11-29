@@ -2,7 +2,7 @@ package br.com.duck.compilador.recovery;
 
 import br.com.duck.compilador.parser.*;
 
-public class First { //implementa os conjuntos first p/ alguns n.terminais
+public class Follow { //implementa os conjuntos first p/ alguns n.terminais
 
     static public final RecoverySet start = new RecoverySet();
     static public final RecoverySet statement = new RecoverySet();

@@ -27,20 +27,42 @@ function App() {
 
   const handleFileChange = (event) => {
     if (event.target.files) {
-      const newFiles = Array.from(event.target.files);
-      setFiles([...files, ...newFiles]);
-      if (files.length > 0) {
-        setSelectedFileIndex(files.length - 1);
-      } else {
-        setSelectedFileIndex(0);
-      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+
+        const newFile = {
+          name: event.target.files[0]?.name,
+          value: content,
+          type: event.target.files[0]?.type,
+        };
+        setFiles([...files, newFile]);
+        setSelectedFileIndex(files.length);
+      };
+      reader.readAsText(event.target.files[0]);
+
+      // console.log(event.target.files[0]);
+
+      // setFiles([...files, ...newFile]);
+      // if (files.length > 0) {
+      // setSelectedFileIndex(files.length - 1);
+
+      // } else {
+      //   setSelectedFileIndex(0);
+      // }
     }
   };
 
   const createFile = () => {
-    const blob = new Blob([], { type: "text/plain" });
-
-    setFiles([...files, blob]);
+    const newFile = {
+      name: `new_file ${files.length + 1}.txt`,
+      value: "",
+      type: "text/plain",
+    };
+    // new File([""], `new_file ${files.length + 1}.txt`, {
+    //   type: "text/plain",
+    // });
+    setFiles([...files, newFile]);
     setSelectedFileIndex(files.length);
   };
 
@@ -155,24 +177,37 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (
-      files.length > 0 &&
-      selectedFileIndex !== null &&
-      selectedFileIndex < files.length
-    ) {
-      let fileReader = new FileReader();
-      fileReader.onload = async (e) => {
-        setEditorValue(e.target.result);
-      };
-      fileReader.readAsText(files[files.length - 1]);
-    }
-  }, [files, selectedFileIndex]);
+  // useEffect(() => {
+  //   if (
+  //     files.length > 0 &&
+  //     selectedFileIndex !== null &&
+  //     selectedFileIndex < files.length
+  //   ) {
+  //     let fileReader = new FileReader();
+  //     fileReader.onload = async (e) => {
+  //       // setEditorValue(e.target.result);
+  //     };
+  //     fileReader.readAsText(files[selectedFileIndex]);
+  //   }
+  // }, [files, selectedFileIndex]);
+
+  // const readFile = (file) => {
+  //   return new Promisse((resolve) => {
+  //     let fileReader = new FileReader();
+  //     fileReader.onload = (e) => {
+  //       resolve(e.target.result);
+  //     };
+  //     fileReader.readAsText(file);
+  //   });
+  // };
 
   return (
     <div className="container">
       <div className="sidebar">
-        <button className="btn btn-dark" onClick={() => compile(editorValue)}>
+        <button
+          className="btn btn-dark"
+          onClick={() => compile(editorRef.current.getValue())}
+        >
           <img src={playArrowIcon} />
           <span className="tooltip">Compilar código</span>
         </button>
@@ -203,7 +238,6 @@ function App() {
               }`}
               onClick={() => {
                 setSelectedFileIndex(index);
-                setEditorValue(file[index]);
               }}
             >
               {file.name}
@@ -232,10 +266,12 @@ function App() {
             width="100%"
             height="100%"
             theme="vs-dark"
-            path={files[selectedFileIndex]}
+            // path={files[selectedFileIndex]}
+            path={files[selectedFileIndex]?.name}
             onChange={handleEditorChange}
             onMount={handleEditorDidMount}
-            value={editorValue}
+            // value={editorValue}
+            value={files[selectedFileIndex]?.value}
           />
         ) : (
           <div
