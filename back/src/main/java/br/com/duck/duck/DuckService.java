@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import br.com.duck.compilador.parser.Compilador;
 import br.com.duck.compilador.parser.ParseException;
 import br.com.duck.compilador.parser.SimpleNode;
+import br.com.duck.compilador.parser.TokenMgrError;
 import br.com.duck.compilador.recovery.ParseEOFException;
 
 @Service
@@ -22,14 +23,17 @@ public class DuckService {
 	SimpleNode tree;
 	ObjectMapper objectMapper = new ObjectMapper();
 	
-	public String compileCode(String sourceCode) throws ParseException, ParseEOFException {
+	public String compileCode(String sourceCode) throws ParseException, ParseEOFException, Exception {
+		try {
 			if (compiler == null) {
 				compiler = new Compilador(new StringReader(sourceCode));
 			} else {
 				compiler.ReInit(new StringReader(sourceCode));;
 			}
 			compiler.errors.clear();
+		
 			tree = compiler.Start();
+	
 			tree.dump(" ");
 			
 
@@ -44,6 +48,23 @@ public class DuckService {
 			}
 			resultJson.set("errors", errorsArray);
 			return resultJson.toString();
+		} catch (TokenMgrError e) {
+			ObjectNode errorJson = objectMapper.createObjectNode();
+			ArrayNode errorArray = objectMapper.createArrayNode();
+			
+			errorArray.add(e.getMessage());
+			errorJson.set("error", errorArray);
+
+			return errorJson.toString();
+		} catch (Error e) {
+			ObjectNode errorJson = objectMapper.createObjectNode();
+			ArrayNode errorArray = objectMapper.createArrayNode();
+			
+			errorArray.add(e.getMessage());
+			errorJson.set("error", errorArray);
+
+			return errorJson.toString();
+		}
 //				StringBuilder sb = new StringBuilder();
 //				treeRepresentation(tree, "", sb);
 		

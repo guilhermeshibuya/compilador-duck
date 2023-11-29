@@ -79,7 +79,7 @@ body {
 }
 
 .console-txt {
-  display: inline-block;
+  display: block;
   margin-bottom: 16px;
 }
 

@@ -73,6 +73,7 @@ function App() {
       }
       setFiles(newFiles);
     }
+    console.log(selectedFileIndex);
   };
 
   const compile = async (sourceCode) => {
@@ -86,22 +87,71 @@ function App() {
       });
       if (response.ok) {
         const result = await response.json();
-        setTree(result.tree);
-        console.log(result);
-        if (result.errors.length == 0) {
-          setSuccessMsg("Compilado com sucesso!");
-          setErrorMsg([]);
-          setAlertMsg(null);
+
+        if ("tree" in result) {
+          setTree(result.tree);
+
+          if (
+            "errors" in result &&
+            Array.isArray(result.errors) &&
+            result.errors.length > 0
+          ) {
+            setAlertMsg(
+              "Compilado utilizando a recuperaçao de erros por pânico"
+            );
+            setErrorMsg(result.errors);
+            setSuccessMsg("");
+          } else {
+            setSuccessMsg("Compilado com sucesso!");
+            setAlertMsg("");
+            setErrorMsg([]);
+          }
         } else {
-          setAlertMsg("Compilado utilizando a recuperação de erro por pânico!");
-          setErrorMsg(result.errors);
-          setSuccessMsg(null);
+          setTree(null);
+          setErrorMsg(result.error);
+          setSuccessMsg("");
+          setAlertMsg("");
         }
       } else {
         const error = await response.json();
-        console.log(error);
+        setTree(null);
         setErrorMsg(error.error);
+        setAlertMsg("");
+        setSuccessMsg("");
       }
+      // if (response.ok) {
+      //   const result = await response.json();
+
+      //   if ("tree" in result) {
+      //     if (
+      //       "errors" in result &&
+      //       Array.isArray(result.errors) &&
+      //       result.errors.length > 0
+      //     ) {
+      //       setAlertMsg(
+      //         "Compilado utilizando a recuperação de erro por pânico!"
+      //       );
+      //       setErrorMsg(result.errors);
+      //       setSuccessMsg("");
+      //     } else {
+      //       setSuccessMsg("Compilado com sucesso!");
+      //       setErrorMsg([]);
+      //       setAlertMsg("");
+      //     }
+      //     setTree(result.tree);
+      //   } else {
+      //     console.log(result);
+      //     setErrorMsg(result.error);
+      //     setAlertMsg("");
+      //     setSuccessMsg("");
+      //   }
+      // } else {
+      //   const error = await response.json();
+      //   setTree(null);
+      //   setErrorMsg(error);
+      //   setAlertMsg("");
+      //   setSuccessMsg("");
+      // }
     }
   };
 
@@ -200,10 +250,17 @@ function App() {
       <div className="console">
         {alertMsg && <p className="console-txt alert-txt">{alertMsg}</p>}
         {successMsg && <p className="console-txt success-txt">{successMsg}</p>}
-        {errorMsg.length > 0 &&
-          errorMsg.map((error) => {
-            return <p className="console-txt error-txt">{error}</p>;
-          })}
+        {Array.isArray(errorMsg) ? (
+          errorMsg.map((error, index) => {
+            return (
+              <p key={index} className="console-txt error-txt">
+                {error}
+              </p>
+            );
+          })
+        ) : (
+          <p className="console-txt error-txt">{errorMsg}</p>
+        )}
       </div>
     </div>
   );

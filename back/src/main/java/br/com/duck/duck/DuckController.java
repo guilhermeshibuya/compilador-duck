@@ -14,8 +14,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import br.com.duck.compilador.parser.ParseException;
+import br.com.duck.compilador.parser.TokenMgrError;
 import br.com.duck.compilador.recovery.ParseEOFException;
 
 @RestController
@@ -24,6 +27,7 @@ import br.com.duck.compilador.recovery.ParseEOFException;
 public class DuckController {
 	@Autowired
 	private DuckService compilerService;
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@PostMapping("/compile")
 	public ResponseEntity<String> compile(@RequestBody String sourceCode) {
@@ -32,17 +36,26 @@ public class DuckController {
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (ParseEOFException e) {		
-			String error = "{\"error\": \"" + e.getMessage() + "\"}";
-			System.out.println(error);
-			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+			ObjectNode error = objectMapper.createObjectNode();
+			ArrayNode errorArray = objectMapper.createArrayNode();
+			errorArray.add(error);
+			error.set("compileError", errorArray);
+
+			return new ResponseEntity<>(errorArray.toString(), HttpStatus.BAD_REQUEST);
 		} catch (ParseException e) {
-			String error = "{\"error\": \"" + e.getMessage() + "\"}";
-			System.out.println(error);
-			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+			ObjectNode error = objectMapper.createObjectNode();
+			ArrayNode errorArray = objectMapper.createArrayNode();
+			errorArray.add(error);
+			error.set("compileError", errorArray);
+
+			return new ResponseEntity<>(errorArray.toString(), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-			String error = "{\"error\": \"" + e.getMessage() + "\"}";
-			System.out.println(error);
-			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+			ObjectNode error = objectMapper.createObjectNode();
+			ArrayNode errorArray = objectMapper.createArrayNode();
+			errorArray.add(error);
+			error.set("compileError", errorArray);
+
+			return new ResponseEntity<>(errorArray.toString(), HttpStatus.BAD_REQUEST);
+		} 
 	}
 }

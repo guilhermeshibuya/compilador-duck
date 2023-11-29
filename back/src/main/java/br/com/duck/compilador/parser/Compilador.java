@@ -10,7 +10,7 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
   protected static JJTCompiladorState jjtree = new JJTCompiladorState();
 //  public static CompilationError errors = new CompilationError();
   public static List<String> errors = new ArrayList<String>();
-  public static void main(String args []) throws ParseException, ParseEOFException
+  public static void main(String args []) throws ParseException, ParseEOFException, Exception
   {
 
     Compilador parser = new Compilador(System.in);
@@ -29,14 +29,16 @@ public class Compilador/*@bgen(jjtree)*/implements CompiladorTreeConstants, Comp
       {
         System.out.println("Erro de quckila\u00e7\u00e3o: ");
         System.out.println(e.getMessage());
+        
         Compilador.ReInit(System.in);
+        throw e;
       }
-      catch (Error e)
-      {
-        System.out.println("Erro quacktal: ");
-        System.out.println(e.getMessage());
-        break;
-      }
+//      catch (Error e)
+//      {
+//        System.out.println("Erro quacktal: ");
+//        System.out.println(e.getMessage());
+//        break;
+//      }
     }
   }
 
