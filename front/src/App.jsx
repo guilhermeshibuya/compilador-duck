@@ -40,16 +40,6 @@ function App() {
         setSelectedFileIndex(files.length);
       };
       reader.readAsText(event.target.files[0]);
-
-      // console.log(event.target.files[0]);
-
-      // setFiles([...files, ...newFile]);
-      // if (files.length > 0) {
-      // setSelectedFileIndex(files.length - 1);
-
-      // } else {
-      //   setSelectedFileIndex(0);
-      // }
     }
   };
 
@@ -59,9 +49,6 @@ function App() {
       value: "",
       type: "text/plain",
     };
-    // new File([""], `new_file ${files.length + 1}.txt`, {
-    //   type: "text/plain",
-    // });
     setFiles([...files, newFile]);
     setSelectedFileIndex(files.length);
   };
@@ -87,15 +74,14 @@ function App() {
       newFiles.splice(index, 1);
 
       if (newFiles.length > 0) {
-        if (selectedFileIndex >= newFiles.length) {
-          setSelectedFileIndex(newFiles.length - 1);
-        }
-      } else {
-        setSelectedFileIndex(null);
+        const newIndex =
+          selectedFileIndex === newFiles.length
+            ? newFiles.length - 1
+            : selectedFileIndex;
+        setSelectedFileIndex(newIndex);
       }
       setFiles(newFiles);
     }
-    console.log(selectedFileIndex);
   };
 
   const compile = async (sourceCode) => {
@@ -177,29 +163,7 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   if (
-  //     files.length > 0 &&
-  //     selectedFileIndex !== null &&
-  //     selectedFileIndex < files.length
-  //   ) {
-  //     let fileReader = new FileReader();
-  //     fileReader.onload = async (e) => {
-  //       // setEditorValue(e.target.result);
-  //     };
-  //     fileReader.readAsText(files[selectedFileIndex]);
-  //   }
-  // }, [files, selectedFileIndex]);
-
-  // const readFile = (file) => {
-  //   return new Promisse((resolve) => {
-  //     let fileReader = new FileReader();
-  //     fileReader.onload = (e) => {
-  //       resolve(e.target.result);
-  //     };
-  //     fileReader.readAsText(file);
-  //   });
-  // };
+  useEffect(() => {}, [files, selectedFileIndex]);
 
   return (
     <div className="container">
