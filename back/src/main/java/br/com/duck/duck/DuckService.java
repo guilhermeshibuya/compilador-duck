@@ -52,9 +52,15 @@ public class DuckService {
 			ObjectNode errorJson = objectMapper.createObjectNode();
 			ArrayNode errorArray = objectMapper.createArrayNode();
 			
+			ArrayNode errorsArray = objectMapper.createArrayNode();
+			for (String error : compiler.errors) {
+				errorsArray.add(error);
+			}
+			
 			errorArray.add(e.getMessage());
 			errorJson.set("error", errorArray);
-
+			errorJson.set("errors", errorsArray);
+			
 			return errorJson.toString();
 		} catch (Error e) {
 			ObjectNode errorJson = objectMapper.createObjectNode();

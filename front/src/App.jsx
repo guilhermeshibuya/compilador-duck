@@ -116,9 +116,9 @@ function App() {
           }
         } else {
           setTree(null);
+          setAlertMsg(result.errors);
           setErrorMsg(result.error);
           setSuccessMsg("");
-          setAlertMsg("");
         }
       } else {
         const error = await response.json();
