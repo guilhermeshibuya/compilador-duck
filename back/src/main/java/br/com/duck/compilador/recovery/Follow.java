@@ -39,15 +39,24 @@ public class Follow { //implementa os conjuntos first p/ alguns n.terminais
     static public final RecoverySet intT = type;
     static public final RecoverySet floatT = type;
     static public final RecoverySet stringT = type;
-    static public final RecoverySet or = expression;
-    static public final RecoverySet and = expression;
-    static public final RecoverySet equals = expression;
-    static public final RecoverySet lessThan = expression;
-    static public final RecoverySet greaterThan = expression;
-    static public final RecoverySet plus = expression;
-    static public final RecoverySet minus = expression;
-    static public final RecoverySet times = expression;
-    static public final RecoverySet divided = expression;
+    static public final RecoverySet or = new RecoverySet();
+  static public final RecoverySet and = or;
+  static public final RecoverySet equals = or;
+  static public final RecoverySet lessThan = or;
+  static public final RecoverySet greaterThan = or;
+  static public final RecoverySet plus = or;
+  static public final RecoverySet minus = or;
+  static public final RecoverySet times = or;
+  static public final RecoverySet divided = or;
+//    static public final RecoverySet or = expression;
+//    static public final RecoverySet and = expression;
+//    static public final RecoverySet equals = expression;
+//    static public final RecoverySet lessThan = expression;
+//    static public final RecoverySet greaterThan = expression;
+//    static public final RecoverySet plus = expression;
+//    static public final RecoverySet minus = expression;
+//    static public final RecoverySet times = expression;
+//    static public final RecoverySet divided = expression;
     static public final RecoverySet number = factor;
     
     static {
@@ -105,5 +114,9 @@ public class Follow { //implementa os conjuntos first p/ alguns n.terminais
 		ifT.add(new Integer(Compilador.OPEN_PAREN));
 		
 		elseT.add(new Integer(Compilador.OPEN_CURLY));
+		
+		or.add(new Integer(Compilador.NUM));
+		or.add(new Integer(Compilador.ID));
+		or.add(new Integer(Compilador.OPEN_PAREN));
     }
 }

@@ -122,8 +122,11 @@ function App() {
         }
       } else {
         const error = await response.json();
+        if (error?.status === 400) {
+          setErrorMsg("Requisição vazia");
+        }
         setTree(null);
-        setErrorMsg(error.error);
+
         setAlertMsg("");
         setSuccessMsg("");
       }

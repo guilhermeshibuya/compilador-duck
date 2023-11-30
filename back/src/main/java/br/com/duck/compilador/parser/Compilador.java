@@ -598,7 +598,7 @@ if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Instrução de retorno ausente na função");
 }
 
   static final public void Statement() throws ParseException {/*@bgen(jjtree) Statement */
